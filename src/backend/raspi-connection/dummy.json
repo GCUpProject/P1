@@ -1,0 +1,47 @@
+[
+  {
+    "index": 1,
+    "sesor_id": 1,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 45,
+    "gas": 1621,
+    "fire": 0
+  },
+  {
+    "index": 2,
+    "sesor_id": 1,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 45,
+    "gas": 1611,
+    "fire": 0
+  },
+  {
+    "index": 3,
+    "sesor_id": 2,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 44,
+    "gas": 1620,
+    "fire": 0
+  },
+  {
+    "index": 4,
+    "sesor_id": 2,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 44,
+    "gas": 1622,
+    "fire": 0
+  },
+  {
+    "index": 5,
+    "sesor_id": 2,
+    "created_at": 1,
+    "temp": 27,
+    "humi": 44,
+    "gas": 1615,
+    "fire": 0
+  }
+]
