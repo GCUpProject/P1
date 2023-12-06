@@ -27,11 +27,11 @@ app.post("/receive_data", (req, res) => {
     console.log("Received Data:", data);
 
     // 필요한 데이터 추출
-    const { sesor_id, temp, humi, gas } = data;
+    const { sensor_id, temp, humi, gas } = data;
 
     // MySQL에 데이터 삽입
-    const query = `INSERT INTO sensor_data (sesor_id, temp, humi, gas) VALUES (?, ?, ?, ?)`;
-    connection.query(query, [sesor_id, temp, humi, gas], (err, results) => {
+    const query = `INSERT INTO sensor_data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
+    connection.query(query, [sensor_id, temp, humi, gas], (err, results) => {
       if (err) {
         console.error("Error inserting data into MySQL:", err);
         throw err;
