@@ -31,22 +31,26 @@ app.post("/receive_data", (req, res) => {
 
     // MySQL에 데이터 삽입
     const query = `INSERT INTO sensor_data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
-    connection.query(query, [sensor_id, temp, humi, gas], (err, results) => {
-      if (err) {
-        console.error("Error inserting data into MySQL:", err);
-        throw err;
+    connection.query(
+      query,
+      [sensor_id, temp, humi, gas, fire],
+      (err, results) => {
+        if (err) {
+          console.error("Error inserting data into MySQL:", err);
+          throw err;
+        }
+
+        // 여기에 필요한 동작을 추가할 수 있습니다.
+
+        console.log("Data inserted into MySQL:", results);
+
+        const response = {
+          status: "success",
+          message: "Data received and stored successfully",
+        };
+        res.status(200).json(response);
       }
-
-      // 여기에 필요한 동작을 추가할 수 있습니다.
-
-      console.log("Data inserted into MySQL:", results);
-
-      const response = {
-        status: "success",
-        message: "Data received and stored successfully",
-      };
-      res.status(200).json(response);
-    });
+    );
   } catch (error) {
     console.error("Error:", error);
     const response = {
