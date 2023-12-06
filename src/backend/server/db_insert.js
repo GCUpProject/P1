@@ -27,7 +27,7 @@ app.post("/receive_data", (req, res) => {
     console.log("Received Data:", data);
 
     // 필요한 데이터 추출
-    const { sensor_id, temp, humi, gas } = data;
+    const { sensor_id, temp, humi, gas, fire } = data;
 
     // MySQL에 데이터 삽입
     const query = `INSERT INTO sensor_data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
@@ -45,7 +45,7 @@ app.post("/receive_data", (req, res) => {
         status: "success",
         message: "Data received and stored successfully",
       };
-      res.json(response);
+      res.status(200).json(response);
     });
   } catch (error) {
     console.error("Error:", error);
