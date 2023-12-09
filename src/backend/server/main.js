@@ -4,6 +4,7 @@ const mysql = require("mysql");
 const dbConfig = require("./dbconfig");
 
 const sensorDataRead = require("application/sensor_data_read");
+const adminAuth = require("applicaion/admin_auth");
 const raspiReceive = require("raspi/raspi_receive");
 
 const app = express();
@@ -24,6 +25,7 @@ connection.connect((err) => {
 // ------- 애플리케이션 API ------
 // 센서 데이터 조회 라우팅
 app.use("/sensorData", sensorDataRead);
+app.use("/admin/auth", adminAuth);
 
 // ------ 라즈베리파이 API ------
 app.use("/receive", raspiReceive);
