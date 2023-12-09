@@ -5,15 +5,6 @@ const dbConfig = require("./dbConfig");
 
 const connection = mysql.createConnection(dbConfig);
 
-// 연결 테스트
-connection.connect((err) => {
-  if (err) {
-    console.error("MySQL에 연결 중 오류 발생:", err);
-  } else {
-    console.log("MySQL에 연결됨");
-  }
-});
-
 // POST 요청 처리 (관리자 인증)
 router.post("/admin_auth", (req, res) => {
   try {
