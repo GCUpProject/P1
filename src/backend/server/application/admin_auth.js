@@ -22,7 +22,7 @@ router.post("/admin_auth", (req, res) => {
         // 해당 인덱스의 행이 없음
         const response = {
           status: "error",
-          message: "해당 인덱스의 관리자가 존재하지 않습니다.",
+          message: "해당 번호의 관리자가 존재하지 않습니다.",
         };
         res.status(404).json(response); // 404는 찾을 수 없음을 의미합니다.
         return;
