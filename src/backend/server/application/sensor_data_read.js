@@ -32,7 +32,7 @@ app.get("/sensorData/:sensor_id", (req, res) => {
     console.error("오류:", error);
     const response = {
       status: "error",
-      message: "센서 데이터 검색 실패",
+      message: "센서 데이터 검색에 실패했습니다.",
     };
     res.status(500).json(response);
   }
