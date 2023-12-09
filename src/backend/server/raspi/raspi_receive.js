@@ -37,7 +37,7 @@ app.post("/receive_data", (req, res) => {
 
         const response = {
           status: "success",
-          message: "데이터가 성공적으로 수신 및 저장됨",
+          message: "데이터가 성공적으로 수신 및 저장됐습니다.",
         };
         res.status(200).json(response);
       }
@@ -46,7 +46,7 @@ app.post("/receive_data", (req, res) => {
     console.error("Error:", error);
     const response = {
       status: "error",
-      message: "데이터 처리 및 저장에 실패",
+      message: "데이터 처리 및 저장에 실패했습니다.",
     };
     res.status(500).json(response); // 500은 서버 내부 오류를 의미합니다.
   }
