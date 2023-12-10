@@ -1,0 +1,47 @@
+[
+  {
+    "index": 1,
+    "n": 1,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 45,
+    "gas": 1621,
+    "fire": 0
+  },
+  {
+    "index": 2,
+    "sensor_id": 1,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 45,
+    "gas": 1611,
+    "fire": 0
+  },
+  {
+    "index": 3,
+    "sensor_id": 2,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 44,
+    "gas": 1620,
+    "fire": 0
+  },
+  {
+    "index": 4,
+    "sensor_id": 2,
+    "created_at": 1,
+    "temp": 26,
+    "humi": 44,
+    "gas": 1622,
+    "fire": 0
+  },
+  {
+    "index": 5,
+    "sensor_id": 2,
+    "created_at": 1,
+    "temp": 27,
+    "humi": 44,
+    "gas": 1615,
+    "fire": 0
+  }
+]
