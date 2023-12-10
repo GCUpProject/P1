@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
-const testDbConfig = require("../test_dbconfig");
+const testDbConfig = require("./test_dbconfig");
 
 const app = express();
 const port = 60035;
@@ -27,13 +27,13 @@ app.post("/receive_data", (req, res) => {
     console.log("Received Data:", data);
 
     // 필요한 데이터 추출
-    const { sensor_id, temp, humi, gas, fire } = data;
+    const { sensor_id, temperature, humidity, gas, fire } = data;
 
     // MySQL에 데이터 삽입
-    const query = `INSERT INTO sensor_data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO test (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
     connection.query(
       query,
-      [sensor_id, temp, humi, gas, fire],
+      [sensor_id, temperature, humidity, gas, fire],
       (err, results) => {
         if (err) {
           console.error("Error inserting data into MySQL:", err);
