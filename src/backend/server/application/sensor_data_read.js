@@ -14,7 +14,7 @@ app.get("/sensorData/:sensor_id", (req, res) => {
     const sensorId = req.params.sensor_id;
 
     // MySQL에서 해당 센서의 데이터 조회
-    const query = `SELECT * FROM sensor_data WHERE sensor_id = ?`;
+    const query = `SELECT * FROM data WHERE sensor_id = ?`;
     connection.query(query, [sensorId], (err, results) => {
       if (err) {
         console.error("MySQL에서 데이터를 조회하는 중 오류 발생:", err);
