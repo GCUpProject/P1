@@ -23,7 +23,7 @@ function hashPassword(password, salt) {
 // }
 
 // POST 요청 처리 (관리자 인증)
-app.post("/admin/auth", (req, res) => {
+app.post("/admin_auth", (req, res) => {
   try {
     const { admin_index, admin_password } = req.body; // 클라이언트에서 전송된 인덱스와 관리자 인증 비밀번호
     console.log(req.body);
@@ -40,12 +40,10 @@ app.post("/admin/auth", (req, res) => {
 
       if (results.length === 0) {
         // 해당 인덱스의 행이 없음
-        return res
-          .status(404)
-          .json({
-            status: "error",
-            message: "해당 번호의 관리자가 존재하지 않습니다.",
-          });
+        return res.status(404).json({
+          status: "error",
+          message: "해당 번호의 관리자가 존재하지 않습니다.",
+        });
       }
 
       const storedPassword = results[0].password;
@@ -68,12 +66,10 @@ app.post("/admin/auth", (req, res) => {
     });
   } catch (error) {
     console.error("오류:", error);
-    return res
-      .status(500)
-      .json({
-        status: "error",
-        message: "관리자 인증 중 오류가 발생했습니다.",
-      });
+    return res.status(500).json({
+      status: "error",
+      message: "관리자 인증 중 오류가 발생했습니다.",
+    });
   }
 });
 
