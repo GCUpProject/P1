@@ -21,7 +21,7 @@ connection.connect((err) => {
 });
 
 // POST 요청 처리
-app.post("/receive_data", (req, res) => {
+app.post("/receive_test", (req, res) => {
   try {
     const data = req.body; // 받은 JSON 데이터를 파싱합니다.
     console.log("Received Data:", data);
@@ -30,7 +30,7 @@ app.post("/receive_data", (req, res) => {
     const { sensor_id, temp, humi, gas, fire } = data;
 
     // MySQL에 데이터 삽입
-    const query = `INSERT INTO sensor_data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
     connection.query(
       query,
       [sensor_id, temp, humi, gas, fire],
