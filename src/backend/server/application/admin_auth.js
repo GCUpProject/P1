@@ -1,19 +1,22 @@
 const express = require("express");
-const router = express.Router();
-const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const crypto = require("crypto");
 const dbConfig = require("../dbconfig");
+const cors = require("cors"); // cors 추가
 
 const app = express();
-app.use(bodyParser.json()); // JSON 형식의 요청 데이터를 파싱
+const router = express.Router();
+
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
+app.use(cors()); // cors 사용
 
 const connection = mysql.createConnection(dbConfig);
 
 // SHA-512로 입력한 비밀번호 해시화
-function hashPassword(password, salt) {
+function hashPassword(admin_password, salt) {
   const hash = crypto.createHmac("sha512", salt);
-  hash.update(password);
+  hash.update(admin_password);
   return hash.digest("hex");
 }
 
@@ -23,14 +26,20 @@ function hashPassword(password, salt) {
 // }
 
 // POST 요청 처리 (관리자 인증)
-app.post("/admin_auth", (req, res) => {
+const adminAuth = (req, res) => {
+  let body = req.body;
+
+  console.log("post요청 받음");
+  console.log("Received data from client:", req.body);
   try {
-    const { admin_index, admin_password } = req.body; // 클라이언트에서 전송된 인덱스와 관리자 인증 비밀번호
-    console.log(req.body);
+    const data = req.body; // 받은 JSON 데이터를 파싱합니다.
+    console.log("Received Data:", data);
+
+    const { admin_password } = data;
 
     // DB에서 저장된 관리자 비밀번호 및 솔트 조회
-    const query = "SELECT password, salt FROM admin WHERE index = ?";
-    connection.query(query, [admin_index], (err, results) => {
+    const query = "SELECT password, salt FROM admin";
+    connection.query(query, 4, (err, results) => {
       if (err) {
         console.error("MySQL에서 데이터를 조회하는 중 오류 발생:", err);
         return res
@@ -38,13 +47,13 @@ app.post("/admin_auth", (req, res) => {
           .json({ status: "error", message: "서버 오류 발생" });
       }
 
-      if (results.length === 0) {
-        // 해당 인덱스의 행이 없음
-        return res.status(404).json({
-          status: "error",
-          message: "해당 번호의 관리자가 존재하지 않습니다.",
-        });
-      }
+      // if (results.length === 0) {
+      //   // 해당 인덱스의 행이 없음
+      //   return res.status(404).json({
+      //     status: "error",
+      //     message: "해당 번호의 관리자가 존재하지 않습니다.",
+      //   });
+      // }
 
       const storedPassword = results[0].password;
       const salt = results[0].salt;
@@ -71,6 +80,8 @@ app.post("/admin_auth", (req, res) => {
       message: "관리자 인증 중 오류가 발생했습니다.",
     });
   }
-});
+};
+
+router.post("/admin_auth", adminAuth);
 
 module.exports = router;

@@ -1,43 +1,54 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
-const dbConfig = require("../dbconfig");
-const router = express.Router();
+const dbconfig = require("../dbconfig");
 
 const app = express();
 
-app.use(bodyParser.json());
+const port = 60035;
+const router = express.Router();
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
 
 // MySQL 연결 생성
-const connection = mysql.createConnection(dbConfig);
+const connection = mysql.createConnection(dbconfig);
+
+// 연결 테스트
+connection.connect((err) => {
+  if (err) {
+    console.error("Error connecting to MySQL:", err);
+  } else {
+    console.log("Connected to MySQL");
+  }
+});
 
 // POST 요청 처리
-app.post("/receive_data", (req, res) => {
+const raspiReceive = (req, res) => {
   try {
     const data = req.body; // 받은 JSON 데이터를 파싱합니다.
     console.log("Received Data:", data);
 
     // 필요한 데이터 추출
-    const { sensor_id, temp, humi, gas, fire } = data;
+    const { sensor_id, temperature, humidity, gas, fire } = data;
 
     // MySQL에 데이터 삽입
-    const query = `INSERT INTO sensor_data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO data (sensor_id, temp, humi, gas, fire) VALUES (?, ?, ?, ?, ?)`;
     connection.query(
       query,
-      [sensor_id, temp, humi, gas, fire],
+      [sensor_id, temperature, humidity, gas, fire],
       (err, results) => {
         if (err) {
-          console.error("MySQL에 데이터를 삽입하는 중 오류 발생:", err);
+          console.error("Error inserting data into MySQL:", err);
           throw err;
         }
 
         // 여기에 필요한 동작을 추가할 수 있습니다.
 
-        console.log("데이터가 MySQL에 삽입됨:", results);
+        console.log("Data inserted into MySQL:", results);
 
         const response = {
           status: "success",
-          message: "데이터가 성공적으로 수신 및 저장됐습니다.",
+          message: "Data received and stored successfully",
         };
         res.status(200).json(response);
       }
@@ -46,10 +57,12 @@ app.post("/receive_data", (req, res) => {
     console.error("Error:", error);
     const response = {
       status: "error",
-      message: "데이터 처리 및 저장에 실패했습니다.",
+      message: "Failed to process and store the data",
     };
     res.status(500).json(response); // 500은 서버 내부 오류를 의미합니다.
   }
-});
+};
+
+router.post("/receive_data", raspiReceive);
 
 module.exports = router;

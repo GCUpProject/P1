@@ -26,7 +26,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question("관리자 비밀번호를 입력하세요: ", (admin_password) => {
+rl.question("관리자 비밀번호를 입력하세요: \n", (admin_password) => {
   // 비밀번호를 입력받았을 때의 처리
   rl.close();
 
