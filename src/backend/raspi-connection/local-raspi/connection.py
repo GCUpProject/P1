@@ -5,6 +5,7 @@ import json
 from gtts import gTTS
 from multiprocessing import Process
 import os
+import socket
 import spidev
 #----------------DHT-----------------
 sensor = Adafruit_DHT.DHT11
@@ -13,9 +14,10 @@ pin = 23
 remote_host = '192.168.4.1'
 remote_user = 'pi'
 remote_path = '/home/pi/Server/'
-json_filename = '/home/pi/pProj/sensor_data.json'
+json_filename = ''
 #-----------RASPIINFORMATION---------
 sensorId = 1
+sesorIp = ''
 #----------Create a JSON file--------
 i = 0
 dataList = []
@@ -64,6 +66,13 @@ if __name__ == '__main__':
 	warn_p = Process(target=warn_process, args=(1,))
 	warn_p.start()
 	
+	#Checking own ip adress
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	s.connect(("8.8.8.8", 80))
+	sensorIp = s.getsockname()[0]
+	json_filename = "/home/pi/pProj/" + sensorIp +".json"
+	print(json_filename)
+	
 	while True:	
 		#Check sensor data
 		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
@@ -90,4 +99,3 @@ if __name__ == '__main__':
 			result = os.system(scp_command)
 		
 		time.sleep(0.04)  # 25Hz
-
