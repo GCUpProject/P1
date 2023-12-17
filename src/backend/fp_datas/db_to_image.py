@@ -10,7 +10,6 @@ def draw_text(img, text, font_path, font_size):
                     
     # 사용할 폰트와 크기 지정
     font = ImageFont.truetype(font_path, font_size)
-    #font = ImageFont.truetype("NotoSansCJK-Bold", font_size)
 
     text_y = 20
     if len(text) == 4:
@@ -22,17 +21,17 @@ def draw_text(img, text, font_path, font_size):
 
     # 텍스트 그리기
     draw.text((text_x,text_y), text, font=font, fill=(0,0,0))
-    #print(text)
+    print(text)
                                             
     # PIL 이미지를 OpenCV 이미지로 다시 변환
     return np.array(img_pil)
 
 
 # 이미지 파일 경로
-floor_plan_path = 'images/floor_plan.png'
-fire_icon_path = 'images/fire.png'
-extinguisher_icon_path = 'images/extinguisher.png'
-exit_icon_path = 'images/exit.png'
+floor_plan_path = '/home/t23320/P1/src/backend/fp_datas/images/floor_plan.png'
+fire_icon_path = '/home/t23320/P1/src/backend/fp_datas/images/fire.png'
+extinguisher_icon_path = '/home/t23320/P1/src/backend/fp_datas/images/extinguisher.png'
+exit_icon_path = '/home/t23320/P1/src/backend/fp_datas/images/exit.png'
 
 # 이미지 읽기
 floor_plan = cv2.imread(floor_plan_path, cv2.IMREAD_UNCHANGED)
@@ -77,32 +76,32 @@ try:
     sensor_count = cursor.fetchone()[0]
 
     # 비상구 아이콘 배치
-    cursor.execute("SELECT space.x, space.y, space.name FROM sensor JOIN space ON sensor.space_id = space.`index` WHERE sensor.exit = 1")
+    cursor.execute("SELECT space.x, space.y, space.name FROM sensor JOIN space ON sensor.space_name = space.`name` WHERE sensor.exit_status = 1")
     exit_spaces = cursor.fetchall()
     for x, y, name in exit_spaces:
-        text_icon = draw_text(exit_icon, name, "NanumGothicBold.ttf", 50)
+        text_icon = draw_text(exit_icon, name, "/home/t23320/P1/src/backend/fp_datas/NanumGothicBold.ttf", 50)
         draw_icon_with_text(floor_plan, text_icon, name, x, y)
 
     # 소화기 아이콘 배치
-    cursor.execute("SELECT space.x, space.y, space.name FROM sensor JOIN space ON sensor.space_id = space.`index` WHERE sensor.extinguisher = 1")
+    cursor.execute("SELECT space.x, space.y, space.name FROM sensor JOIN space ON sensor.space_name = space.`name` WHERE sensor.extinguisher = 1")
     extinguisher_spaces = cursor.fetchall()
     for x, y, name in extinguisher_spaces:
-        text_icon = draw_text(extinguisher_icon, name, "NanumGothicBold.ttf", 50)
+        text_icon = draw_text(extinguisher_icon, name, "/home/t23320/P1/src/backend/fp_datas/NanumGothicBold.ttf", 50)
         draw_icon_with_text(floor_plan, text_icon, name, x, y)
 
     # 화재 아이콘 배치
     cursor.execute("SELECT sensor_id FROM test WHERE fire = 1 ORDER BY created_at DESC LIMIT %s", (sensor_count,))
     fire_tests = cursor.fetchall()
     for sensor_id, in fire_tests:
-        cursor.execute("SELECT space_id FROM sensor WHERE `index` = %s", (sensor_id,))
+        cursor.execute("SELECT space_name FROM sensor WHERE `sensor_id` = %s", (sensor_id,))
         space_id_record = cursor.fetchone()
         if space_id_record:
             space_id = space_id_record[0]
-            cursor.execute("SELECT x, y, name FROM space WHERE `index` = %s", (space_id,))
+            cursor.execute("SELECT x, y, name FROM space WHERE `space_id` = %s", (space_id,))
             space_record = cursor.fetchone()
             if space_record:
                 x, y, name = space_record
-                text_icon = draw_text(fire_icon, name, "NanumGothicBold.ttf", 50)
+                text_icon = draw_text(fire_icon, name, "/home/t23320/P1/src/backend/fp_datas/NanumGothicBold.ttf", 50)
                 draw_icon_with_text(floor_plan, text_icon, name, x, y)
 
 except mysql.connector.Error as e:
@@ -113,7 +112,7 @@ finally:
         db_connection.close()
 
 # 결과 이미지를 저장하고 보여주기
-cv2.imwrite('result.png', floor_plan)
+cv2.imwrite('/home/t23320/P1/src/backend/fp_datas/result.png', floor_plan)
 #cv2.imshow('Floor Plan with Exits, Extinguishers, and Fire', floor_plan)
 cv2.waitKey(0)
 cv2.destroyAllWindows()

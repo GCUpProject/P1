@@ -13,7 +13,7 @@ db_config = {
 }
 
 # 이미지 불러오기
-image = cv2.imread('images/floor_plan.png')
+image = cv2.imread('/home/t23320/P1/src/backend/fp_datas/images/floor_plan.png')
 
 # 그레이스케일 변환
 gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

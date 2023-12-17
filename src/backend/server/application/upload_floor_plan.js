@@ -6,7 +6,7 @@ const { exec } = require('child_process');
 // 파일 저장 경로 지정
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/home/t23320/dev/images');
+    cb(null, '/home/t23320/P1/src/backend/fp_datas/images');
   },
   filename: function (req, file, cb) {
     cb(null, 'floor_plan.png');
@@ -17,10 +17,10 @@ const upload = multer({ storage: storage });
 
 const uploadFloorPlan = (req, res) => {
   // 이미지를 성공적으로 저장한 후 OCR을 실행
-  console.log('Image saved successfully');
+  console.log('Floor Plan Image saved successfully');
   
   // OCR을 실행하는 명령어
-  const ocrCommand = 'python3 ocr_to_db.py';
+  const ocrCommand = 'python3 /home/t23320/P1/src/backend/fp_datas/ocr_to_db.py';
 
   // exec 함수를 사용하여 ocr_to_db.py를 실행
   exec(ocrCommand, (error, stdout, stderr) => {
@@ -34,6 +34,7 @@ const uploadFloorPlan = (req, res) => {
       res.status(200).send('OCR completed successfully');
       // 전송된 데이터 확인
       console.log('Received data:', req.file);
+      console.log('upload_floor_plan.js Finished')
     }
   });
 };

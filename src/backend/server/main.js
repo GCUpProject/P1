@@ -12,7 +12,10 @@ const sensorDelete = require("./application/sensor_delete");
 const spaceRead = require("./application/space_read");
 
 const adminAuth = require("./application/admin_auth");
+
 const uploadFloorPlan = require("./application/upload_floor_plan");
+const resultMapRead = require("./application/result_map_read");
+
 const raspiReceive = require("./raspi/raspi_receive");
 
 const app = express();
@@ -53,6 +56,9 @@ app.post("/admin_auth", adminAuth);
 
 // 도면도 이미지 업로드 라우팅
 app.post("/floor_plan", uploadFloorPlan);
+
+// 변환한 도면도 이미지 조회 라우팅
+app.get("/map", resultMapRead);
 
 // ------ 라즈베리파이 API ------
 app.post("/receive_data", raspiReceive);
