@@ -92,6 +92,13 @@ try:
     # 화재 아이콘 배치
     cursor.execute("SELECT sensor_id FROM test WHERE fire = 1 ORDER BY created_at DESC LIMIT %s", (sensor_count,))
     fire_tests = cursor.fetchall()
+    
+    cursor.execute("SELECT * FROM crop")
+    crop_record = cursor.fetchone()
+    if crop_record:
+        #print(crop_record)
+        crop_index, max_x, max_y, min_x, min_y = crop_record
+
     for sensor_id, in fire_tests:
         cursor.execute("SELECT space_name FROM sensor WHERE `sensor_id` = %s", (sensor_id,))
         space_id_record = cursor.fetchone()
@@ -110,6 +117,9 @@ finally:
     if db_connection.is_connected():
         cursor.close()
         db_connection.close()
+
+print(int(min_y/2),int(max_y/2),int(min_x/2),int(max_x/2))
+floor_plan = floor_plan[int(min_y/2):int(max_y/2), int(min_x/2):int(max_x/2)]
 
 # 결과 이미지를 저장하고 보여주기
 cv2.imwrite('/home/t23320/P1/src/backend/fp_datas/result.png', floor_plan)

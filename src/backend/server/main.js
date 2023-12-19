@@ -8,6 +8,7 @@ const sensorAdd = require("./application/sensor_add");
 const sensorRead = require("./application/sensor_read");
 // const sensorReadBySpaceId = require("./application/sensor_read");
 const sensorDelete = require("./application/sensor_delete");
+const sensorIdRead = require("./application/sensor_id_read");
 
 const spaceRead = require("./application/space_read");
 
@@ -47,6 +48,9 @@ app.get("/sensor", sensorRead);
 
 // 센서 삭제 라우팅
 app.delete("/sensor/:sensor_id", sensorDelete);
+
+// 전체 센서 id 조회 라우팅
+app.get("/sensor_id", sensorIdRead);
 
 // 방 정보 조회 라우팅
 app.get("/space", spaceRead);
