@@ -11,15 +11,25 @@
 - Document : 설계서 등 문서 자료
 - src : 소스 코드
   📦src
+  
  ┣ 📂backend
+ 
  ┃ ┣ 📂fp_datas
+ 
  ┃ ┃ ┣ 📂images
+ 
  ┃ ┣ 📂raspi-connection
+ 
  ┃ ┃ ┣ 📂local-raspi
+ 
  ┃ ┃ ┣ 📂remote-raspi
+ 
  ┃ ┃ ┃ ┣ 📂receive
+ 
  ┃ ┃ ┃ ┗ 📂send
+ 
  ┃ ┗ 📂server
+ 
  ┗ 📂frontend
  
 ** /src 폴더를 backend, frontend로 나누어 개발 **
