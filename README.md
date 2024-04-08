@@ -53,7 +53,7 @@
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/yeonod">
+      <a href="https://github.com/nuyeo">
       구연우
       </a>
     </td>
